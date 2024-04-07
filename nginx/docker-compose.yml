@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  app1:
+    image: node:20-alpine3.18
+    container_name: app1
+    working_dir: /app
+    volumes:
+      - ../app.js:/app/app.js
+      - ../package.json:/app/package.json
+      - ../node_modules:/app/node_modules
+    environment:
+      - SERVER_NAME=serverA
+      - SERVER_PORT=3000
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    command: "npm start"
+  app2:
+    image: node:20-alpine3.18
+    container_name: app2
+    working_dir: /app
+    volumes:
+      - ../app.js:/app/app.js
+      - ../package.json:/app/package.json
+      - ../node_modules:/app/node_modules
+    environment:
+      - SERVER_NAME=serverB
+      - SERVER_PORT=3001
+    expose:
+      - "3001"
+    ports:
+      - 3001:3001
+    command: "npm start"
+  app3:
+    image: node:20-alpine3.18
+    container_name: app3
+    working_dir: /app
+    volumes:
+      - ../app.js:/app/app.js
+      - ../package.json:/app/package.json
+      - ../node_modules:/app/node_modules
+    environment:
+      - SERVER_NAME=serverC
+      - SERVER_PORT=3002
+    expose:
+      - "3002"
+    ports:
+      - 3002:3002
+    command: "npm start"
+  nginx_main:
+    image: nginx:1.21.4
+    container_name: nginx_main
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8003:80
