@@ -58,17 +58,24 @@ services:
       - ../package.json:/app/package.json
       - ../node_modules:/app/node_modules
     environment:
-      - SERVER_NAME=serverC
+      - SERVER_NAME=serverD
       - SERVER_PORT=3003
     expose:
       - "3003"
     ports:
       - 3003:3003
     command: "npm start"
-  nginx_main:
-    image: nginx:1.21.4
-    container_name: nginx_main
+  apache_alpine:
+    image: httpd:alpine3.19
+    container_name: apache_main
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./alpine.conf:/usr/local/apache2/conf/httpd.conf
+    ports:
+      - 8004:80
+  apache_bookworm:
+    image: httpd:bookworm
+    container_name: apache_bookworm
+    volumes:
+      - ./bookworm.conf:/usr/local/apache2/conf/httpd.conf
     ports:
       - 8003:80
